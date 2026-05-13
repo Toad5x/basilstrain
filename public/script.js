@@ -345,7 +345,7 @@ function ieBack()    { document.getElementById('ie-frame').contentWindow.history
 function ieForward() { document.getElementById('ie-frame').contentWindow.history.forward(); }
 function ieStop()    { document.getElementById('ie-frame').contentWindow.stop(); document.getElementById('ie-status').textContent = '✋ Stopped'; }
 function ieRefresh() { document.getElementById('ie-frame').contentWindow.location.reload(); document.getElementById('ie-status').textContent = '⏳ Loading...'; }
-function ieHome()    { ieNavigateTo(SITE_ROOT); }
+function ieHome()    { ieNavigateTo(SITE_ROOT + 'chant.html'); }
 
 // ============================================================
 // NOTEPAD
