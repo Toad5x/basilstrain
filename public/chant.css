@@ -1,0 +1,263 @@
+/* ============================================================
+   chant.css — Chant Corner
+   Aesthetic: early 2000s religious/academic website
+   Times New Roman body, wood-grain header, plain white
+   content, dark red links, table-based layout feel
+   ============================================================ */
+
+body {
+  background-color: #d8cca8;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+  font-family: "Times New Roman", Times, serif;
+  font-size: 14px;
+  color: #111111;
+  margin: 0;
+  padding: 0 0 30px 0;
+}
+
+/* ── HEADER BANNER ── */
+#header {
+  width: 100%;
+  background-color: #8b6914;
+  /* wood-grain: layered linear gradients simulating grain lines */
+  background-image:
+    repeating-linear-gradient(
+      92deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(0,0,0,0.04) 18px,
+      rgba(0,0,0,0.04) 19px
+    ),
+    repeating-linear-gradient(
+      89deg,
+      transparent 0px,
+      transparent 35px,
+      rgba(255,255,255,0.03) 35px,
+      rgba(255,255,255,0.03) 37px
+    ),
+    linear-gradient(
+      180deg,
+      #c8a040 0%,
+      #a07820 25%,
+      #8b6510 50%,
+      #9a7420 75%,
+      #b89030 100%
+    );
+  border-bottom: 3px solid #5a3e08;
+  border-top: 2px solid #d4aa50;
+  text-align: center;
+  padding: 18px 0 14px;
+}
+
+#header h1 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 36px;
+  font-weight: bold;
+  color: #1a0800;
+  margin: 0;
+  padding: 0;
+  text-shadow: 1px 1px 2px rgba(255,220,100,0.4);
+  letter-spacing: 1px;
+}
+
+.header-sub {
+  font-family: "Times New Roman", Times, serif;
+  font-style: italic;
+  font-size: 13px;
+  color: #2a1400;
+  margin: 4px 0 0;
+  opacity: 0.85;
+}
+
+/* ── NAV BAR ── */
+#navbar {
+  background-color: #5a3e08;
+  border-bottom: 2px solid #3a2404;
+  text-align: center;
+  padding: 5px 0;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+#navbar a {
+  color: #f0d890;
+  text-decoration: none;
+  padding: 0 10px;
+}
+
+#navbar a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* ── OUTER WRAPPER (simulates centered table) ── */
+table[width="780"] {
+  margin-top: 12px;
+}
+
+/* ── MAIN CONTENT COLUMN ── */
+#main-col {
+  background-color: #ffffff;
+  padding: 14px 18px;
+  border: 1px solid #b0a070;
+}
+
+/* ── SECTION HEADING ── */
+h2.section-head {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #5a1010;
+  margin: 4px 0 6px;
+  padding: 0;
+}
+
+hr.section-rule {
+  border: none;
+  border-top: 2px solid #8b1a1a;
+  margin: 0 0 12px;
+}
+
+hr.entry-rule {
+  border: none;
+  border-top: 1px solid #ccbbaa;
+  margin: 14px 0;
+}
+
+/* ── SCHOLIA ENTRIES ── */
+.scholion {
+  margin-bottom: 6px;
+}
+
+.scholion-date {
+  font-size: 12px;
+  color: #888066;
+  font-style: italic;
+  margin: 0 0 2px;
+}
+
+h3.scholion-title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #5a1010;
+  margin: 0 0 6px;
+}
+
+.scholion p {
+  margin: 0 0 8px;
+  line-height: 1.65;
+  text-align: justify;
+}
+
+/* ── SIDEBAR COLUMN ── */
+#sidebar-col {
+  background-color: #f5f0e0;
+  border: 1px solid #b0a070;
+  padding: 10px 12px;
+}
+
+/* currently singing box */
+.sidebar-box {
+  background-color: #ede0b8;
+  border: 1px solid #b09050;
+  border-left: 3px solid #8b1a1a;
+  padding: 8px 10px;
+  margin-bottom: 14px;
+}
+
+.sidebar-box-title {
+  font-size: 11px;
+  font-weight: bold;
+  color: #8b1a1a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 5px;
+}
+
+.sidebar-piece {
+  font-style: italic;
+  font-size: 15px;
+  color: #1a0800;
+  margin: 0 0 2px;
+}
+
+.sidebar-piece-sub {
+  font-size: 11px;
+  color: #666050;
+  margin: 0;
+  line-height: 1.5;
+}
+
+h2.sidebar-head {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #5a1010;
+  margin: 0 0 4px;
+}
+
+hr.sidebar-rule {
+  border: none;
+  border-top: 1px solid #8b1a1a;
+  margin: 0 0 8px;
+}
+
+/* link categories */
+.link-category {
+  font-size: 11px;
+  font-weight: bold;
+  color: #5a3e08;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 10px 0 3px;
+  border-bottom: 1px dotted #b0a070;
+  padding-bottom: 2px;
+}
+
+.link-list {
+  list-style: disc;
+  margin: 0 0 4px 16px;
+  padding: 0;
+}
+
+.link-list li {
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.link-note {
+  font-size: 11px;
+  color: #888066;
+  font-style: italic;
+}
+
+/* ── LINKS ── */
+a:link    { color: #8b1a1a; }
+a:visited { color: #551010; }
+a:hover   { color: #cc2222; text-decoration: underline; }
+a:active  { color: #cc2222; }
+
+/* ── FOOTER ── */
+hr.footer-rule {
+  border: none;
+  border-top: 1px solid #b0a070;
+  margin: 12px 0 8px;
+}
+
+#footer {
+  text-align: center;
+  font-size: 12px;
+  color: #666050;
+  line-height: 1.7;
+  margin: 0;
+}
+
+#footer a {
+  color: #666050;
+}
+
+#footer em {
+  color: #444;
+}

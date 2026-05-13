@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basil's Homepage</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- DESKTOP -->
+<div id="desktop" onclick="closeMenus()">
+
+  <div class="desktop-icon" ondblclick="openWindow('my-computer')" onclick="selectIcon(this)">
+    <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="3" width="28" height="19" fill="#D4D0C8" stroke="#808080" stroke-width="1"/>
+      <rect x="4" y="5" width="24" height="15" fill="#000080"/>
+      <rect x="8" y="20" width="16" height="3" fill="#A09C95"/>
+      <rect x="4" y="23" width="24" height="3" fill="#D4D0C8" stroke="#808080" stroke-width="0.5"/>
+      <rect x="5" y="6" width="22" height="13" fill="#0000AA"/>
+      <text x="9" y="14" fill="white" font-size="6" font-family="Courier">C:\></text>
+      <rect x="9" y="15" width="2" height="1" fill="white"/>
+    </svg>
+    <span>My Computer</span>
+  </div>
+
+  <div class="desktop-icon" ondblclick="openWindow('my-docs')" onclick="selectIcon(this)">
+    <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="6" width="22" height="24" fill="#F5F5DC" stroke="#808080" stroke-width="1"/>
+      <polygon points="3,6 17,6 25,14 25,30 3,30" fill="#FFFACD" stroke="#808080" stroke-width="1"/>
+      <polygon points="17,6 25,14 17,14" fill="#D4D0C8" stroke="#808080" stroke-width="1"/>
+      <line x1="7" y1="17" x2="21" y2="17" stroke="#808080" stroke-width="1"/>
+      <line x1="7" y1="20" x2="21" y2="20" stroke="#808080" stroke-width="1"/>
+      <line x1="7" y1="23" x2="15" y2="23" stroke="#808080" stroke-width="1"/>
+    </svg>
+    <span>My Documents</span>
+  </div>
+
+  <div class="desktop-icon" ondblclick="openWindow('ie')" onclick="selectIcon(this)">
+    <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="12" fill="#0066CC" stroke="#003399" stroke-width="1"/>
+      <ellipse cx="16" cy="16" rx="6" ry="12" fill="none" stroke="white" stroke-width="1.5"/>
+      <ellipse cx="16" cy="16" rx="12" ry="6" fill="none" stroke="white" stroke-width="1.5"/>
+      <line x1="4" y1="16" x2="28" y2="16" stroke="white" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="12" fill="none" stroke="white" stroke-width="1.5"/>
+      <text x="10" y="13" fill="#FFFF00" font-size="7" font-weight="bold" font-family="Arial">e</text>
+    </svg>
+    <span>Internet Explorer</span>
+  </div>
+
+  <div class="desktop-icon" ondblclick="openWindow('notepad')" onclick="selectIcon(this)">
+    <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="2" width="24" height="28" fill="white" stroke="#808080" stroke-width="1"/>
+      <rect x="4" y="2" width="24" height="4" fill="#D4D0C8"/>
+      <rect x="7" y="8" width="18" height="1" fill="#C0C0C0"/>
+      <rect x="7" y="11" width="18" height="1" fill="#C0C0C0"/>
+      <rect x="7" y="14" width="18" height="1" fill="#C0C0C0"/>
+      <rect x="7" y="17" width="12" height="1" fill="#C0C0C0"/>
+      <text x="6" y="6" fill="#000080" font-size="4" font-family="Tahoma">Notepad</text>
+    </svg>
+    <span>Notepad</span>
+  </div>
+
+  <div class="desktop-icon" ondblclick="triggerBSOD()" onclick="selectIcon(this)">
+    <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="13" fill="#FFD700" stroke="#B8860B" stroke-width="1.5"/>
+      <text x="10.5" y="21" font-size="14" font-family="Arial" fill="#B8860B">!</text>
+    </svg>
+    <span>Recycle Bin</span>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════ WINDOWS ═══════════════════════════════════ -->
+
+<!-- MY COMPUTER -->
+<div class="window hidden" id="my-computer" style="left:80px;top:40px;width:580px;height:400px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'my-computer')">
+    <span class="title-bar-text">🖥 My Computer</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('my-computer')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('my-computer')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('my-computer')">✕</div>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="menu-item" onclick="toggleDropdown('mc-file')">File
+      <div class="dropdown" id="mc-file">
+        <div class="dropdown-item">New Folder</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item">Create Shortcut</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item" onclick="closeWindow('my-computer')">Close</div>
+      </div>
+    </div>
+    <div class="menu-item" onclick="toggleDropdown('mc-edit')">Edit
+      <div class="dropdown" id="mc-edit">
+        <div class="dropdown-item">Select All</div>
+        <div class="dropdown-item">Invert Selection</div>
+      </div>
+    </div>
+    <div class="menu-item" onclick="toggleDropdown('mc-view')">View
+      <div class="dropdown" id="mc-view">
+        <div class="dropdown-item">Thumbnails</div>
+        <div class="dropdown-item">Tiles</div>
+        <div class="dropdown-item">Icons</div>
+        <div class="dropdown-item">List</div>
+        <div class="dropdown-item">Details</div>
+      </div>
+    </div>
+    <div class="menu-item">Help</div>
+  </div>
+  <div class="toolbar">
+    <div class="toolbar-btn" title="Back">◀</div>
+    <div class="toolbar-btn" title="Forward">▶</div>
+    <div class="toolbar-btn" title="Up">⬆</div>
+    <div class="toolbar-separator"></div>
+    <div class="toolbar-btn" title="Search">🔍</div>
+    <div class="toolbar-btn" title="Folders">📁</div>
+    <div class="toolbar-separator"></div>
+    <div class="toolbar-btn" title="Views">☰</div>
+  </div>
+  <div class="address-bar">
+    <span class="address-label">Address</span>
+    <input class="address-input" value="My Computer" readonly>
+    <div class="dialog-btn" style="height:20px;padding:1px 8px;">Go</div>
+  </div>
+  <div class="split-layout">
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">System Tasks</div>
+        <a class="sidebar-link">View system information</a>
+        <a class="sidebar-link">Add or remove programs</a>
+        <a class="sidebar-link">Change a setting</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Other Places</div>
+        <a class="sidebar-link">My Network Places</a>
+        <a class="sidebar-link">My Documents</a>
+        <a class="sidebar-link">Shared Documents</a>
+        <a class="sidebar-link">Control Panel</a>
+      </div>
+    </div>
+    <div class="window-content gray-bg" style="padding:4px;">
+      <div style="padding:4px;font-weight:bold;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px;">Hard Disk Drives</div>
+      <div class="file-grid">
+        <div class="file-item" onclick="selectFile(this)"><div class="icon">💾</div><span>Local Disk (C:)</span></div>
+        <div class="file-item" onclick="selectFile(this)"><div class="icon">💾</div><span>Local Disk (D:)</span></div>
+      </div>
+      <div style="padding:4px;font-weight:bold;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:8px;">Devices with Removable Storage</div>
+      <div class="file-grid">
+        <div class="file-item" onclick="selectFile(this)"><div class="icon">💿</div><span>3½ Floppy (A:)</span></div>
+        <div class="file-item" onclick="selectFile(this)"><div class="icon">📀</div><span>CD-ROM (E:)</span></div>
+        <div class="file-item" onclick="selectFile(this)"><div class="icon">📀</div><span>DVD-ROM (F:)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item">5 objects</div>
+    <div class="status-item">My Computer</div>
+  </div>
+  <div class="resize-handle" onmousedown="startResize(event,'my-computer')">⟲</div>
+</div>
+
+<!-- MY DOCUMENTS — basilstrain.neocities.org file browser
+     TO UPDATE: edit NEOCITIES_FILES in script.js -->
+<div class="window hidden" id="my-docs" style="left:140px;top:80px;width:560px;height:420px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'my-docs')">
+    <span class="title-bar-text" id="my-docs-title">📁 basilstrain - Neocities</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('my-docs')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('my-docs')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('my-docs')">✕</div>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="menu-item" onclick="toggleDropdown('doc-file')">File
+      <div class="dropdown" id="doc-file">
+        <div class="dropdown-item" onclick="window.open('https://basilstrain.neocities.org','_blank')">Open Site in Browser</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item" onclick="closeWindow('my-docs')">Close</div>
+      </div>
+    </div>
+    <div class="menu-item">Edit</div>
+    <div class="menu-item">View</div>
+    <div class="menu-item">Favorites</div>
+    <div class="menu-item">Tools</div>
+    <div class="menu-item">Help</div>
+  </div>
+  <div class="toolbar">
+    <div class="toolbar-btn" title="Back" onclick="ncBack()">◀</div>
+    <div class="toolbar-btn" title="Forward">▶</div>
+    <div class="toolbar-btn" title="Up" onclick="ncUp()">⬆</div>
+    <div class="toolbar-separator"></div>
+    <div class="toolbar-btn" title="Open site" onclick="window.open('https://basilstrain.neocities.org','_blank')">🌐</div>
+  </div>
+  <div class="address-bar">
+    <span class="address-label">Address</span>
+    <input class="address-input" id="nc-address" value="https://basilstrain.neocities.org/" readonly>
+  </div>
+  <div class="split-layout">
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Site Tasks</div>
+        <a class="sidebar-link" onclick="window.open('https://neocities.org/site/basilstrain','_blank')">View on Neocities</a>
+        <a class="sidebar-link" onclick="window.open('https://basilstrain.neocities.org','_blank')">Open website</a>
+        <a class="sidebar-link" onclick="window.open('https://neocities.org/dashboard','_blank')">Dashboard</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Site Info</div>
+        <div style="font-size:10px;color:#444;line-height:1.8;padding:2px 0;">
+          <div>👤 basilstrain</div>
+          <div id="nc-filecount">📄 2 files</div>
+          <div>🌐 neocities.org</div>
+        </div>
+      </div>
+    </div>
+    <div class="window-content gray-bg" style="padding:4px;" id="nc-file-pane">
+      <!-- populated by script.js -->
+    </div>
+  </div>
+  <div class="status-bar">
+    <div class="status-item" id="nc-status">2 objects</div>
+    <div class="status-item">basilstrain.neocities.org</div>
+  </div>
+  <div class="resize-handle" onmousedown="startResize(event,'my-docs')">⟲</div>
+</div>
+
+<!-- INTERNET EXPLORER -->
+<div class="window hidden" id="ie" style="left:60px;top:30px;width:640px;height:480px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'ie')">
+    <span class="title-bar-text">basilstrain.neocities.org - Windows Internet Explorer</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('ie')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('ie')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('ie')">✕</div>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="menu-item" onclick="toggleDropdown('ie-file')">File
+      <div class="dropdown" id="ie-file">
+        <div class="dropdown-item">New Window &nbsp;&nbsp; Ctrl+N</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item">Save As...</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item">Print...</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item" onclick="closeWindow('ie')">Close</div>
+      </div>
+    </div>
+    <div class="menu-item">Edit</div>
+    <div class="menu-item">View</div>
+    <div class="menu-item">Favorites</div>
+    <div class="menu-item">Tools</div>
+    <div class="menu-item">Help</div>
+  </div>
+  <div class="toolbar">
+    <div class="toolbar-btn" title="Back" onclick="ieBack()">◀</div>
+    <div class="toolbar-btn" title="Forward" onclick="ieForward()">▶</div>
+    <div class="toolbar-btn" title="Stop" onclick="ieStop()">✕</div>
+    <div class="toolbar-btn" title="Refresh" onclick="ieRefresh()">🔄</div>
+    <div class="toolbar-btn" title="Home" onclick="ieHome()">🏠</div>
+    <div class="toolbar-separator"></div>
+    <div class="toolbar-btn" title="Favorites">⭐</div>
+    <div class="toolbar-btn" title="History">📜</div>
+    <div class="toolbar-btn" title="Print" onclick="window.print()">🖨️</div>
+  </div>
+  <div class="address-bar">
+    <span class="address-label">Address</span>
+    <input class="address-input" value="https://basilstrain.neocities.org/" id="ie-address" onkeydown="ieNavigate(event)">
+    <div class="dialog-btn" style="height:20px;padding:1px 8px;" onclick="ieNavigate({key:'Enter'})">Go</div>
+  </div>
+  <iframe id="ie-frame" src="https://basilstrain.neocities.org/" style="flex:1;border:none;width:100%;display:block;" onload="ieFrameLoaded()" onerror="ieFrameError()"></iframe>
+  <div class="status-bar">
+    <div class="status-item" id="ie-status">✅ Done</div>
+    <div class="status-item" id="ie-zone">Internet zone</div>
+  </div>
+  <div class="resize-handle" onmousedown="startResize(event,'ie')">⟲</div>
+</div>
+
+<!-- NOTEPAD -->
+<div class="window hidden" id="notepad" style="left:200px;top:120px;width:400px;height:300px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'notepad')">
+    <span class="title-bar-text">Untitled - Notepad</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('notepad')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('notepad')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('notepad')">✕</div>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="menu-item" onclick="toggleDropdown('np-file')">File
+      <div class="dropdown" id="np-file">
+        <div class="dropdown-item" onclick="newNotepadFile()">New &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+N</div>
+        <div class="dropdown-item">Open... &nbsp;&nbsp;&nbsp;&nbsp; Ctrl+O</div>
+        <div class="dropdown-item">Save &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+S</div>
+        <div class="dropdown-item">Save As...</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item">Page Setup...</div>
+        <div class="dropdown-item">Print... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+P</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item" onclick="closeWindow('notepad')">Exit</div>
+      </div>
+    </div>
+    <div class="menu-item" onclick="toggleDropdown('np-edit')">Edit
+      <div class="dropdown" id="np-edit">
+        <div class="dropdown-item">Undo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+Z</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item">Cut &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+X</div>
+        <div class="dropdown-item">Copy &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+C</div>
+        <div class="dropdown-item">Paste &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ctrl+V</div>
+        <div class="dropdown-item">Delete &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Del</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item">Select All &nbsp; Ctrl+A</div>
+        <div class="dropdown-item">Time/Date &nbsp; F5</div>
+      </div>
+    </div>
+    <div class="menu-item">Format</div>
+    <div class="menu-item">Help</div>
+  </div>
+  <textarea class="notepad-area" id="notepad-text" spellcheck="false">Welcome to Notepad!
+
+Type your notes here...
+
+This is a fully functional text editor.
+You can type, delete, select, and copy text.
+
+Windows 2000 Professional
+Version 5.00.2195
+</textarea>
+  <div class="resize-handle" onmousedown="startResize(event,'notepad')">⟲</div>
+</div>
+
+<!-- PICTURE VIEWER -->
+<div class="window hidden" id="pic-viewer" style="left:160px;top:80px;width:440px;height:380px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'pic-viewer')">
+    <span class="title-bar-text" id="pic-viewer-title">🖼️ Windows Picture Viewer</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('pic-viewer')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('pic-viewer')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('pic-viewer')">✕</div>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="menu-item" onclick="toggleDropdown('pv-file')">File
+      <div class="dropdown" id="pv-file">
+        <div class="dropdown-item" id="pv-open-external">Open in Browser</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item" onclick="closeWindow('pic-viewer')">Close</div>
+      </div>
+    </div>
+    <div class="menu-item">View</div>
+  </div>
+  <div class="toolbar">
+    <div class="toolbar-btn" title="Zoom in"      onclick="pvZoom(1.2)">🔍+</div>
+    <div class="toolbar-btn" title="Zoom out"     onclick="pvZoom(0.8)">🔍-</div>
+    <div class="toolbar-btn" title="Fit to window" onclick="pvFit()">⊡</div>
+    <div class="toolbar-btn" title="Actual size"  onclick="pvActual()">1:1</div>
+    <div class="toolbar-separator"></div>
+    <div class="toolbar-btn" title="Rotate left"  onclick="pvRotate(-90)">↺</div>
+    <div class="toolbar-btn" title="Rotate right" onclick="pvRotate(90)">↻</div>
+  </div>
+  <div class="window-content" style="background:#3a3a3a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;" id="pic-viewer-content">
+    <img id="pic-viewer-img" src="" alt=""
+      style="max-width:100%;max-height:100%;object-fit:contain;transition:transform 0.15s;cursor:move;"
+      draggable="false">
+  </div>
+  <div class="status-bar">
+    <div class="status-item" id="pic-viewer-status">Ready</div>
+    <div class="status-item" id="pic-viewer-zoom">100%</div>
+  </div>
+  <div class="resize-handle" onmousedown="startResize(event,'pic-viewer')">⟲</div>
+</div>
+
+<!-- BSOD -->
+<div id="bsod" onclick="hideBSOD()">
+  <div style="max-width:640px;margin:0 auto;">
+    <h2>Windows</h2>
+    <br>
+    <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) +</p>
+    <p>00010E36. The current application will be terminated.</p>
+    <br>
+    <p>* Press any key to terminate the current application.</p>
+    <p>* Press CTRL+ALT+DEL to restart your computer. You will</p>
+    <p>&nbsp;&nbsp;lose any unsaved information in all applications.</p>
+    <br>
+    <p>Press any key to continue _</p>
+    <br><br>
+    <p style="font-size:10px;opacity:0.7;">(click anywhere to dismiss)</p>
+  </div>
+</div>
+
+<!-- START MENU -->
+<div id="start-menu">
+  <div class="start-header">
+    <span class="start-header-text">Windows<br>2000</span>
+  </div>
+  <div class="start-menu-items">
+    <div class="start-menu-item" onclick="openWindow('ie');closeMenus();">
+      <span class="start-menu-icon">🌐</span>
+      <div>
+        <div style="font-weight:bold;">Internet Explorer</div>
+        <div style="color:#666;font-size:10px;">Browse the World Wide Web</div>
+      </div>
+    </div>
+    <div class="start-menu-item" onclick="openWindow('notepad');closeMenus();">
+      <span class="start-menu-icon">📝</span>
+      <div>
+        <div style="font-weight:bold;">Notepad</div>
+        <div style="color:#666;font-size:10px;">Text editor</div>
+      </div>
+    </div>
+    <div class="start-menu-item" onclick="openWindow('my-computer');closeMenus();">
+      <span class="start-menu-icon">🖥️</span>
+      <div><div style="font-weight:bold;">My Computer</div></div>
+    </div>
+    <div class="start-menu-item" onclick="openWindow('my-docs');closeMenus();">
+      <span class="start-menu-icon">📁</span>
+      <div><div style="font-weight:bold;">My Documents</div></div>
+    </div>
+  </div>
+  <div class="start-menu-items">
+    <div class="start-menu-item"><span class="start-menu-icon">⚙️</span><span>Settings ▶</span></div>
+    <div class="start-menu-item"><span class="start-menu-icon">🔍</span><span>Search ▶</span></div>
+    <div class="start-menu-item"><span class="start-menu-icon">❓</span><span>Help</span></div>
+    <div class="start-menu-item"><span class="start-menu-icon">▶️</span><span>Run...</span></div>
+  </div>
+  <div class="start-menu-footer">
+    <div class="dialog-btn" style="display:flex;align-items:center;gap:4px;"><span>🔒</span> Log Off...</div>
+    <div class="dialog-btn" style="display:flex;align-items:center;gap:4px;" onclick="triggerBSOD()"><span>⏻</span> Shut Down...</div>
+  </div>
+</div>
+
+<!-- TASKBAR -->
+<div id="taskbar">
+  <div id="start-btn" onclick="toggleStartMenu(event)">
+    <div class="win-logo">
+      <div></div><div></div><div></div><div></div>
+    </div>
+    <span>Start</span>
+  </div>
+  <div class="taskbar-divider"></div>
+  <div id="taskbar-buttons" style="display:flex;flex:1;gap:2px;overflow:hidden;"></div>
+  <div id="system-tray">
+    <span title="Volume">🔊</span>
+    <span title="Network">🖧</span>
+    <span id="clock">12:00 PM</span>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
