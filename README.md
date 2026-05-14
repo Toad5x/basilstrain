@@ -1,22 +1,12 @@
-# Deploy to Neocities Template
-This is a template for people who have no clue what they're doing. It uses [Deploy to Neocities](https://github.com/marketplace/actions/deploy-to-neocities) to allow you to edit your site on your desktop or anywhere else you can edit a Github repository.
+# BasilStrain
+Hey! This is a git repo for my personal website, [basilstrain.neocities.org](https://basilstrain.neocities.org)
 
-## How to use
-1. Make your own repository with this one as your template
-2. Name it something, I used my Neocities username
-3. Go to your project's Settings
-4. Look for the Security section on the left side
-5. Click `Secrets and variables`
-6. Click `Actions`
-7. Click the green button that says `New repository secret`
-8. Name it `NEOCITIES_API_TOKEN`
-9. Add your API token as the content of the secret (get it by going to https://neocities.org/settings/YOURUSERNAME#api_key)
-10. Upload your site's contents to your /public/ folder  
+## Main interface
+It is designed as a Windows 2000 esque desktop interface. I'm slowly building out new features. Currently Notepad can be used to type and the IE app can browse pages (but I think it's broken right now). When you open it, you're then shown the second component of my site:
 
-Now, whenever you add or change something to your repository's "main" branch, it'll upload the changed stuff to your Neocities page!  
-Once it's working, if you want to be able to delete files on your site from your repository, go to your `neocities.yml` file at `/.github/workflows/neocities.yml` and change `cleanup: false` to `cleanup: true`.  
-Now you can edit your site through Github! You can use [Github Desktop](https://desktop.github.com) to edit it directly from your computer. If you want to use Node.js or any of that funky nonsense, check the [Deploy to Neocities](https://github.com/marketplace/actions/deploy-to-neocities) documentation. Remember to account for your default branch being named `main` or `master`.  
-If you need a working example, check [my site's repository](https://github.com/M1ssM0ss/missmoss).
+## Chant Corner
+[Chant Corner](https://basilstrain.neocities.org/chant) is a small blog-ish thing I'm making as a repository of content (mostly for myself) that is helpful for Byzantine Chanters in the Eastern Orthodox tradition. The blog portion is mostly for tracking my own progress as a chanter.
 
+I am using [Deploy to Neocities](https://github.com/marketplace/actions/deploy-to-neocities) which I set up quickly and conveniently from [Deploy to Neocities Template](https://github.com/burned-salmon/deploy-to-neocities-template).
 ## License
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
