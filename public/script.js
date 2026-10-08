@@ -88,6 +88,7 @@ function createTaskbarBtn(id) {
     'notepad':     '📝 Notepad',
     'pic-viewer':  '🖼️ Picture Viewer',
     'help':        '❓ Windows Help',
+    'search':      '🔍 Search Results',
     'control-panel': '⚙️ Control Panel',
   };
   const btn = document.createElement('div');
@@ -582,6 +583,62 @@ function applyDisplayProps() {
 }
 
 function cancelDisplayProps() { closeDialog('display-props'); }
+
+// ============================================================
+// SEARCH
+// ============================================================
+function openSearch() {
+  openWindow('search');
+  const input = document.getElementById('search-input');
+  input.focus();
+  input.select();
+}
+
+// "*" and "?" are wildcards; a plain term matches anywhere in the name.
+function searchMatcher(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return () => true;
+  if (!/[*?]/.test(q)) return name => name.toLowerCase().includes(q);
+  const re = new RegExp('^' + q.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\?/g, '.') + '$');
+  return name => re.test(name.toLowerCase());
+}
+
+function runSearch() {
+  const query   = document.getElementById('search-input').value;
+  const matches = searchMatcher(query);
+  const found   = NEOCITIES_FILES.filter(f => matches(f.path.split('/').pop()));
+
+  const box = document.getElementById('search-results');
+  box.innerHTML = '';
+  if (found.length) {
+    const head = document.createElement('div');
+    head.style.cssText = 'display:flex;gap:8px;padding:2px 6px;background:#D4D0C8;border-bottom:1px solid #808080;font-weight:bold;position:sticky;top:0;';
+    head.innerHTML = '<span style="flex:2">Name</span><span style="flex:2">In Folder</span><span style="flex:1;text-align:right">Size</span>';
+    box.appendChild(head);
+  }
+  found.forEach(f => {
+    const isDir  = f.type === 'directory';
+    const parts  = f.path.split('/');
+    const name   = parts.pop();
+    const folder = parts.join('/') || '(site root)';
+    const row = document.createElement('div');
+    row.className = 'file-item';
+    row.style.cssText = 'display:flex;flex-direction:row;align-items:center;gap:8px;width:auto;height:auto;padding:2px 6px;text-align:left;';
+    row.innerHTML = '<span style="flex:2;display:flex;align-items:center;gap:4px;"></span>' +
+                    '<span style="flex:2;"></span><span style="flex:1;text-align:right;"></span>';
+    row.children[0].textContent = (isDir ? '📁 ' : ncExtIcon(name) + ' ') + name;
+    row.children[1].textContent = folder;
+    row.children[2].textContent = isDir ? '' : ncFormatSize(f.size);
+    row.onclick    = () => selectFile(row);
+    row.ondblclick = () => {
+      if (isDir) { openWindow('my-docs'); ncHistory = []; ncRender(f.path); }   // openWindow resets to the root
+      else ncOpenFile(SITE_ROOT + f.path, name);
+    };
+    box.appendChild(row);
+  });
+  document.getElementById('search-status').textContent =
+    found.length ? found.length + ' file(s) found' : 'Search is complete. There are no results to display.';
+}
 
 // ============================================================
 // NOTEPAD

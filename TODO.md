@@ -14,7 +14,7 @@ Planned, in this order:
 - [x] Display Properties wallpapers: auto Tile (< 640x480) or Stretch; list lives in `WALLPAPERS` in `public/script.js` (update with the folder)
 - [ ] Add the remaining Windows 2000 wallpapers to `public/wallpapers/` (then add to `WALLPAPERS` and `NEOCITIES_FILES`)
 - [ ] `images/` folder isn't listed in My Documents (no `directory` entry in `NEOCITIES_FILES`)
-- [ ] Search ▶: "For Files or Folders..." dialog that searches `NEOCITIES_FILES`
+- [x] Search ▶: For Files or Folders... (searches `NEOCITIES_FILES`, supports * and ?) and On the Internet... (Wikipedia search)
 - [ ] Documents ▶: recent files (`about.txt`, `chant.html`)
 - [ ] Favorites ▶: shortcuts to chant resources (Antiochian.org etc.)
 - [ ] Log Off...: confirmation dialog, then a login/welcome screen

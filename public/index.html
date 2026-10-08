@@ -464,6 +464,28 @@ Version 5.00.2195
   </div>
 </div>
 
+<!-- SEARCH -->
+<div class="window hidden" id="search" style="left:170px;top:70px;width:500px;height:360px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'search')">
+    <span class="title-bar-text">🔍 Search Results</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('search')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('search')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('search')">✕</div>
+    </div>
+  </div>
+  <div class="window-content gray-bg" style="padding:10px;font-size:11px;font-family:'Tahoma',sans-serif;display:flex;flex-direction:column;gap:8px;min-height:0;">
+    <div style="display:flex;align-items:center;gap:6px;">
+      <label for="search-input" style="white-space:nowrap;">Search for files or folders named:</label>
+      <input id="search-input" class="address-input" style="flex:1;" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')runSearch()">
+      <div class="dialog-btn default-btn" onclick="runSearch()" style="min-width:70px;text-align:center;">Search Now</div>
+    </div>
+    <div style="color:#444;">Use * and ? as wildcards, for example <i>*.html</i> or <i>wall*</i>.</div>
+    <div id="search-results" style="flex:1;overflow:auto;background:#fff;border:2px inset #fff;min-height:0;"></div>
+    <div id="search-status" style="color:#333;">Ready</div>
+  </div>
+</div>
+
 <!-- HELP -->
 <div class="window hidden" id="help" style="left:160px;top:60px;width:440px;height:340px;">
   <div class="title-bar active-bar" onmousedown="startDrag(event,'help')">
@@ -607,7 +629,13 @@ Version 5.00.2195
         <div class="start-menu-item" onclick="openDisplayProps();"><span class="start-menu-icon">🖥️</span><span>Display...</span></div>
       </div>
     </div>
-    <div class="start-menu-item"><span class="start-menu-icon">🔍</span><span>Search</span><span class="sub-arrow">▶</span></div>
+    <div class="start-menu-item has-sub" onclick="event.stopPropagation()">
+      <span class="start-menu-icon">🔍</span><span>Search</span><span class="sub-arrow">▶</span>
+      <div class="submenu">
+        <div class="start-menu-item" onclick="openSearch();"><span class="start-menu-icon">📄</span><span>For Files or Folders...</span></div>
+        <div class="start-menu-item" onclick="ieNavigateTo('https://en.wikipedia.org/wiki/Special:Search');openWindow('ie');closeMenus();"><span class="start-menu-icon">🌐</span><span>On the Internet...</span></div>
+      </div>
+    </div>
     <div class="start-menu-item" onclick="openWindow('help');closeMenus();"><span class="start-menu-icon">❓</span><span>Help</span></div>
     <div class="start-menu-item" onclick="openRun()"><span class="start-menu-icon">▶️</span><span>Run...</span></div>
   </div>
