@@ -88,6 +88,7 @@ function createTaskbarBtn(id) {
     'notepad':     '📝 Notepad',
     'pic-viewer':  '🖼️ Picture Viewer',
     'help':        '❓ Windows Help',
+    'control-panel': '⚙️ Control Panel',
   };
   const btn = document.createElement('div');
   btn.className = 'taskbar-btn';
@@ -211,6 +212,16 @@ const NEOCITIES_FILES = [
   { path: 'images/neocities.png', type: 'file', size: 6793 },
   { path: 'about.txt', type: 'file', size: 254 },
   { path: 'chant.html', type: 'file', size: 512 },
+  { path: 'wallpapers', type: 'directory' },
+  { path: 'wallpapers/Blue_Lace_16.png', type: 'file', size: 595 },
+  { path: 'wallpapers/Fly_Away.jpg', type: 'file', size: 4684 },
+  { path: 'wallpapers/Ocean_Wave.jpg', type: 'file', size: 74169 },
+  { path: 'wallpapers/Prairie_Wind.png', type: 'file', size: 63706 },
+  { path: 'wallpapers/Soap_Bubbles.png', type: 'file', size: 41043 },
+  { path: 'wallpapers/Solar_Eclipse_(Windows_2000).jpg', type: 'file', size: 25382 },
+  { path: 'wallpapers/Water_Color.jpg', type: 'file', size: 23923 },
+  { path: 'wallpapers/Windows_2000.jpg', type: 'file', size: 129831 },
+  { path: 'wallpapers/Zapotec.png', type: 'file', size: 7157 },
 ];
 
 const SITE_ROOT = 'https://basilstrain.neocities.org/';
@@ -423,6 +434,152 @@ function runOpen() {
   document.getElementById('run-input').value = '';
   closeRun();
 }
+
+// ============================================================
+// DISPLAY PROPERTIES / CONTROL PANEL
+// ============================================================
+const DESKTOP_COLORS = [
+  { name: 'Windows 2000 Blue', color: '#3A6EA5' },
+  { name: 'Teal',              color: '#008080' },
+  { name: 'Forest',            color: '#2F5F3A' },
+  { name: 'Plum',              color: '#5B3A6B' },
+  { name: 'Slate',             color: '#4A5568' },
+  { name: 'Black',             color: '#000000' },
+];
+
+// Files in public/wallpapers/ — keep in sync when adding or removing images.
+const WALLPAPERS = [
+  'Blue_Lace_16.png',
+  'Fly_Away.jpg',
+  'Ocean_Wave.jpg',
+  'Prairie_Wind.png',
+  'Soap_Bubbles.png',
+  'Solar_Eclipse_(Windows_2000).jpg',
+  'Water_Color.jpg',
+  'Windows_2000.jpg',
+  'Zapotec.png',
+];
+
+// Images at least this big are screen-sized pictures (stretch); smaller ones are patterns (tile).
+const WALLPAPER_STRETCH_MIN = { w: 640, h: 480 };
+const wallpaperSize = {};   // file -> { w, h }, filled as images are loaded
+
+function wallpaperLabel(file) {
+  return file.replace(/\.[^.]+$/, '').replace(/_/g, ' ').replace(/\s*\(Windows 2000\)/, '');
+}
+function wallpaperUrl(file) { return 'wallpapers/' + encodeURI(file); }
+
+let dpSaved   = { color: DESKTOP_COLORS[0].color, wallpaper: '', mode: 'stretch' };  // applied to the desktop
+let dpPending = { ...dpSaved };                                                      // selected in the dialog
+
+function applyDesktop(cfg) {
+  document.documentElement.style.setProperty('--win-desktop', cfg.color);
+  paintBackground(document.getElementById('desktop'), cfg, 1);
+  dpSaved = { ...cfg };
+}
+
+// Paints wallpaper onto el. scale shrinks the picture for the preview box.
+function paintBackground(el, cfg, scale) {
+  el.style.backgroundColor = cfg.color;
+  if (!cfg.wallpaper) { el.style.backgroundImage = 'none'; return; }
+  const size = wallpaperSize[cfg.wallpaper];
+  el.style.backgroundImage = 'url("' + wallpaperUrl(cfg.wallpaper) + '")';
+  el.style.backgroundPosition = 'center';
+  if (cfg.mode === 'stretch') {
+    el.style.backgroundRepeat = 'no-repeat';
+    el.style.backgroundSize = 'cover';
+  } else {
+    el.style.backgroundRepeat = cfg.mode === 'tile' ? 'repeat' : 'no-repeat';
+    el.style.backgroundSize = size ? (size.w * scale) + 'px ' + (size.h * scale) + 'px' : 'auto';
+  }
+}
+
+function loadWallpaperSize(file) {
+  return new Promise(resolve => {
+    if (!file || wallpaperSize[file]) return resolve(wallpaperSize[file]);
+    const img = new Image();
+    img.onload  = () => { wallpaperSize[file] = { w: img.naturalWidth, h: img.naturalHeight }; resolve(wallpaperSize[file]); };
+    img.onerror = () => resolve(null);
+    img.src = wallpaperUrl(file);
+  });
+}
+
+function autoWallpaperMode(size) {
+  if (!size) return 'center';
+  return size.w >= WALLPAPER_STRETCH_MIN.w && size.h >= WALLPAPER_STRETCH_MIN.h ? 'stretch' : 'tile';
+}
+
+// Restore saved settings
+try {
+  const color = localStorage.getItem('desktopColor');
+  const wp    = localStorage.getItem('desktopWallpaper');
+  const mode  = localStorage.getItem('desktopWallpaperMode');
+  const cfg = { ...dpSaved };
+  if (color && DESKTOP_COLORS.some(c => c.color === color)) cfg.color = color;
+  if (wp && WALLPAPERS.includes(wp)) { cfg.wallpaper = wp; cfg.mode = ['center','tile','stretch'].includes(mode) ? mode : 'stretch'; }
+  applyDesktop(cfg);
+  if (cfg.wallpaper) loadWallpaperSize(cfg.wallpaper).then(() => applyDesktop(cfg));
+} catch (e) { /* storage unavailable */ }
+
+function dpRefreshPreview() {
+  const preview = document.getElementById('dp-preview');
+  const scale = preview.clientWidth / document.getElementById('desktop').clientWidth;
+  paintBackground(preview, dpPending, scale);
+  document.querySelectorAll('#dp-swatches .dp-swatch').forEach(el => {
+    el.style.outline = el.dataset.color === dpPending.color ? '2px solid #000' : 'none';
+  });
+  document.getElementById('dp-mode').value = dpPending.mode;
+  document.getElementById('dp-mode').disabled = !dpPending.wallpaper;
+}
+
+function dpSelectColor(color) { dpPending.color = color; dpRefreshPreview(); }
+function dpSelectMode(mode)   { dpPending.mode = mode;   dpRefreshPreview(); }
+
+async function dpSelectWallpaper(file) {
+  dpPending.wallpaper = file;
+  if (file) {
+    const size = await loadWallpaperSize(file);
+    if (dpPending.wallpaper !== file) return;   // selection changed while loading
+    dpPending.mode = autoWallpaperMode(size);
+  }
+  dpRefreshPreview();
+}
+
+function openDisplayProps() {
+  const swatches = document.getElementById('dp-swatches');
+  if (!swatches.children.length) {
+    DESKTOP_COLORS.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'dp-swatch';
+      el.dataset.color = c.color;
+      el.title = c.name;
+      el.style.cssText = 'width:28px;height:20px;cursor:pointer;border:1px solid #444;outline-offset:1px;background:' + c.color;
+      el.onclick = () => dpSelectColor(c.color);
+      swatches.appendChild(el);
+    });
+  }
+  const list = document.getElementById('dp-wallpapers');
+  if (!list.options.length) {
+    list.add(new Option('(None)', ''));
+    WALLPAPERS.forEach(f => list.add(new Option(wallpaperLabel(f), f)));
+  }
+  dpPending = { ...dpSaved };
+  list.value = dpPending.wallpaper;
+  openDialog('display-props');   // must be visible before measuring the preview
+  dpRefreshPreview();
+  if (dpPending.wallpaper) loadWallpaperSize(dpPending.wallpaper).then(dpRefreshPreview);
+}
+
+function applyDisplayProps() {
+  applyDesktop(dpPending);
+  try {
+    localStorage.setItem('desktopColor', dpPending.color);
+    localStorage.setItem('desktopWallpaper', dpPending.wallpaper);
+    localStorage.setItem('desktopWallpaperMode', dpPending.mode);
+  } catch (e) { /* ignore */ }
+}
+
+function cancelDisplayProps() { closeDialog('display-props'); }
 
 // ============================================================
 // NOTEPAD

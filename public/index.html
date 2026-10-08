@@ -397,6 +397,73 @@ Version 5.00.2195
   <div class="resize-handle" onmousedown="startResize(event,'pic-viewer')">⟲</div>
 </div>
 
+<!-- CONTROL PANEL -->
+<div class="window hidden" id="control-panel" style="left:150px;top:90px;width:380px;height:240px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'control-panel')">
+    <span class="title-bar-text">⚙️ Control Panel</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('control-panel')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('control-panel')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('control-panel')">✕</div>
+    </div>
+  </div>
+  <div class="window-content" style="background:#fff;">
+    <div class="file-grid">
+      <div class="file-item" onclick="selectFile(this)" ondblclick="openDisplayProps()"><div class="icon">🖥️</div><span>Display</span></div>
+      <div class="file-item" onclick="selectFile(this)" ondblclick="openDialog('sys-props')"><div class="icon">💻</div><span>System</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DISPLAY PROPERTIES -->
+<div class="window hidden" id="display-props" style="left:200px;top:60px;width:340px;min-height:0;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'display-props')">
+    <span class="title-bar-text">Display Properties</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn close-btn" onclick="cancelDisplayProps()">✕</div>
+    </div>
+  </div>
+  <div class="window-content gray-bg" style="padding:12px;font-size:11px;font-family:'Tahoma',sans-serif;">
+    <div style="margin-bottom:6px;"><b>Background</b></div>
+    <div id="dp-preview" style="height:90px;border:2px inset #fff;margin-bottom:10px;"></div>
+    <div style="margin-bottom:3px;">Select a background picture:</div>
+    <select id="dp-wallpapers" size="6" style="width:100%;font-size:11px;font-family:'Tahoma',sans-serif;margin-bottom:8px;" onchange="dpSelectWallpaper(this.value)"></select>
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+      <label for="dp-mode">Picture display:</label>
+      <select id="dp-mode" style="font-size:11px;font-family:'Tahoma',sans-serif;" onchange="dpSelectMode(this.value)">
+        <option value="center">Center</option>
+        <option value="tile">Tile</option>
+        <option value="stretch">Stretch</option>
+      </select>
+    </div>
+    <div style="margin-bottom:4px;">Desktop color:</div>
+    <div id="dp-swatches" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"></div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;">
+      <div class="dialog-btn default-btn" onclick="applyDisplayProps();closeDialog('display-props')">OK</div>
+      <div class="dialog-btn" onclick="cancelDisplayProps()">Cancel</div>
+      <div class="dialog-btn" onclick="applyDisplayProps()">Apply</div>
+    </div>
+  </div>
+</div>
+
+<!-- SYSTEM PROPERTIES -->
+<div class="window hidden" id="sys-props" style="left:220px;top:100px;width:320px;min-height:0;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'sys-props')">
+    <span class="title-bar-text">System Properties</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn close-btn" onclick="closeDialog('sys-props')">✕</div>
+    </div>
+  </div>
+  <div class="window-content gray-bg" style="padding:12px;font-size:11px;font-family:'Tahoma',sans-serif;line-height:1.6;">
+    <div><b>System:</b><br>&nbsp;&nbsp;Microsoft Windows 2000<br>&nbsp;&nbsp;5.00.2195 Service Pack 4</div>
+    <div style="margin-top:8px;"><b>Registered to:</b><br>&nbsp;&nbsp;Basil<br>&nbsp;&nbsp;basilstrain.neocities.org</div>
+    <div style="margin-top:8px;"><b>Computer:</b><br>&nbsp;&nbsp;Your web browser<br>&nbsp;&nbsp;Powered by HTML, CSS and JavaScript</div>
+    <div style="display:flex;justify-content:center;margin-top:14px;">
+      <div class="dialog-btn default-btn" onclick="closeDialog('sys-props')">OK</div>
+    </div>
+  </div>
+</div>
+
 <!-- HELP -->
 <div class="window hidden" id="help" style="left:160px;top:60px;width:440px;height:340px;">
   <div class="title-bar active-bar" onmousedown="startDrag(event,'help')">
@@ -533,7 +600,13 @@ Version 5.00.2195
         <div class="start-menu-item" onclick="openWindow('ie');closeMenus();"><span class="start-menu-icon">🌐</span><span>Internet Explorer</span></div>
       </div>
     </div>
-    <div class="start-menu-item"><span class="start-menu-icon">⚙️</span><span>Settings</span><span class="sub-arrow">▶</span></div>
+    <div class="start-menu-item has-sub" onclick="event.stopPropagation()">
+      <span class="start-menu-icon">⚙️</span><span>Settings</span><span class="sub-arrow">▶</span>
+      <div class="submenu">
+        <div class="start-menu-item" onclick="openWindow('control-panel');closeMenus();"><span class="start-menu-icon">⚙️</span><span>Control Panel</span></div>
+        <div class="start-menu-item" onclick="openDisplayProps();"><span class="start-menu-icon">🖥️</span><span>Display...</span></div>
+      </div>
+    </div>
     <div class="start-menu-item"><span class="start-menu-icon">🔍</span><span>Search</span><span class="sub-arrow">▶</span></div>
     <div class="start-menu-item" onclick="openWindow('help');closeMenus();"><span class="start-menu-icon">❓</span><span>Help</span></div>
     <div class="start-menu-item" onclick="openRun()"><span class="start-menu-icon">▶️</span><span>Run...</span></div>

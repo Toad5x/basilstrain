@@ -10,7 +10,10 @@ Done:
 Planned, in this order:
 - [x] Help: small Help window about the site and how to use it
 - [x] Programs ▶: needs a submenu mechanism (Accessories, Chant Page shortcut, etc.)
-- [ ] Settings ▶: Control Panel, Display Properties (desktop color/wallpaper), Taskbar
+- [x] Settings ▶: Control Panel (Display, System) and Display... (desktop color, saved in localStorage). Taskbar settings not done.
+- [x] Display Properties wallpapers: auto Tile (< 640x480) or Stretch; list lives in `WALLPAPERS` in `public/script.js` (update with the folder)
+- [ ] Add the remaining Windows 2000 wallpapers to `public/wallpapers/` (then add to `WALLPAPERS` and `NEOCITIES_FILES`)
+- [ ] `images/` folder isn't listed in My Documents (no `directory` entry in `NEOCITIES_FILES`)
 - [ ] Search ▶: "For Files or Folders..." dialog that searches `NEOCITIES_FILES`
 - [ ] Documents ▶: recent files (`about.txt`, `chant.html`)
 - [ ] Favorites ▶: shortcuts to chant resources (Antiochian.org etc.)
