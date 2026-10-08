@@ -21,11 +21,24 @@ Planned, in this order:
 - [ ] Shut Down dialog: real "Shut Down Windows" dialog, keep the BSOD as one option
 - [ ] Windows Update: joke/easter-egg item (optional)
 
+## Games
+
+Put under Programs ▶ Games ▶ (in Windows 2000 they live in Accessories ▶ Games), each in its own window. Pick the order as we go.
+
+- [ ] Solitaire (Klondike)
+- [ ] Minesweeper
+- [ ] FreeCell
+- [ ] Hearts
+- [ ] Yacht (dice)
+- [ ] Backgammon
+- [ ] Games submenu: add it under Programs ▶ Accessories ▶ and add a taskbar title for each game in `createTaskbarBtn`
+
 ## Bugs / fixes
 
 - [x] Make Settings ▶ and Search ▶ arrows match Programs ▶ (right-aligned `.sub-arrow`)
 - [x] Fix "Chant Page" link (desktop icon now opens the IE window)
 - [ ] Outside sites (Google, Wikipedia, etc.) refuse to load in the IE iframe; consider a clearer "Cannot display page" screen
+- [ ] Local Disk (C:) and (D:) in My Computer do nothing on double-click (decide: error dialog or fake empty folder)
 
 ## Reminders
 
