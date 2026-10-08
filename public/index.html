@@ -62,7 +62,7 @@
     <span>Notepad</span>
   </div>
 
-  <div class="desktop-icon" ondblclick="ieNavigateTo('chant.html')" onclick="selectIcon(this)">
+  <div class="desktop-icon" ondblclick="ieNavigateTo(SITE_ROOT + 'chant.html');openWindow('ie')" onclick="selectIcon(this)">
     <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       <!-- scroll body -->
       <rect x="5" y="5" width="22" height="22" rx="2" fill="#F5F0DC" stroke="#8B7355" stroke-width="1.2"/>
@@ -397,6 +397,36 @@ Version 5.00.2195
   <div class="resize-handle" onmousedown="startResize(event,'pic-viewer')">⟲</div>
 </div>
 
+<!-- HELP -->
+<div class="window hidden" id="help" style="left:160px;top:60px;width:440px;height:340px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'help')">
+    <span class="title-bar-text">❓ Windows Help</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('help')">_</div>
+      <div class="tb-btn" onclick="maximizeWindow('help')">□</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('help')">✕</div>
+    </div>
+  </div>
+  <div class="window-content" style="background:#fff;padding:14px 18px;overflow:auto;font-size:12px;font-family:'Tahoma',sans-serif;line-height:1.5;">
+    <h3 style="margin:0 0 8px 0;font-size:15px;">Welcome to Basil's Homepage</h3>
+    <p style="margin:0 0 10px 0;">This website is a tiny Windows 2000 desktop. Everything works the way you would expect, more or less.</p>
+    <h4 style="margin:12px 0 4px 0;">Getting around</h4>
+    <ul style="margin:0 0 0 18px;padding:0;">
+      <li><b>Desktop icons:</b> double-click to open them.</li>
+      <li><b>Internet Explorer:</b> opens the Chant Corner. Type an address and press Enter, though many outside sites will not display inside it.</li>
+      <li><b>My Documents:</b> browse the files that make up this site. Double-click one to open it.</li>
+      <li><b>Notepad:</b> shows <i>about.txt</i> on startup, a short introduction.</li>
+      <li><b>Run...:</b> type a program name (<i>notepad</i>, <i>iexplore</i>), a file name (<i>chant.html</i>) or a web address.</li>
+      <li><b>Windows:</b> drag the title bar to move, drag the corner to resize, use the buttons to minimize, maximize or close.</li>
+    </ul>
+    <h4 style="margin:12px 0 4px 0;">Things to try</h4>
+    <ul style="margin:0 0 0 18px;padding:0;">
+      <li>Open the <b>Chant Page</b> for Byzantine chant resources.</li>
+      <li>Double-click the <b>Recycle Bin</b>. Or don't.</li>
+    </ul>
+  </div>
+</div>
+
 <!-- RUN DIALOG -->
 <div class="window hidden" id="run-dialog" style="left:80px;top:300px;width:360px;min-height:0;">
   <div class="title-bar active-bar" onmousedown="startDrag(event,'run-dialog')">
@@ -488,9 +518,24 @@ Version 5.00.2195
     </div>
   </div>
   <div class="start-menu-items">
-    <div class="start-menu-item"><span class="start-menu-icon">⚙️</span><span>Settings ▶</span></div>
-    <div class="start-menu-item"><span class="start-menu-icon">🔍</span><span>Search ▶</span></div>
-    <div class="start-menu-item"><span class="start-menu-icon">❓</span><span>Help</span></div>
+    <div class="start-menu-item has-sub" onclick="event.stopPropagation()">
+      <span class="start-menu-icon">📂</span><span>Programs</span><span class="sub-arrow">▶</span>
+      <div class="submenu">
+        <div class="start-menu-item has-sub" onclick="event.stopPropagation()">
+          <span class="start-menu-icon">🗂️</span><span>Accessories</span><span class="sub-arrow">▶</span>
+          <div class="submenu">
+            <div class="start-menu-item" onclick="openWindow('notepad');closeMenus();"><span class="start-menu-icon">📝</span><span>Notepad</span></div>
+            <div class="start-menu-item" onclick="openWindow('my-docs');closeMenus();"><span class="start-menu-icon">📁</span><span>Windows Explorer</span></div>
+            <div class="start-menu-item" onclick="openRun();"><span class="start-menu-icon">▶️</span><span>Run...</span></div>
+          </div>
+        </div>
+        <div class="start-menu-item" onclick="ieNavigateTo(SITE_ROOT + 'chant.html');openWindow('ie');closeMenus();"><span class="start-menu-icon">📜</span><span>Chant Page</span></div>
+        <div class="start-menu-item" onclick="openWindow('ie');closeMenus();"><span class="start-menu-icon">🌐</span><span>Internet Explorer</span></div>
+      </div>
+    </div>
+    <div class="start-menu-item"><span class="start-menu-icon">⚙️</span><span>Settings</span><span class="sub-arrow">▶</span></div>
+    <div class="start-menu-item"><span class="start-menu-icon">🔍</span><span>Search</span><span class="sub-arrow">▶</span></div>
+    <div class="start-menu-item" onclick="openWindow('help');closeMenus();"><span class="start-menu-icon">❓</span><span>Help</span></div>
     <div class="start-menu-item" onclick="openRun()"><span class="start-menu-icon">▶️</span><span>Run...</span></div>
   </div>
   <div class="start-menu-footer">

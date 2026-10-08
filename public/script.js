@@ -87,6 +87,7 @@ function createTaskbarBtn(id) {
     'ie':          '🌐 Internet Explorer',
     'notepad':     '📝 Notepad',
     'pic-viewer':  '🖼️ Picture Viewer',
+    'help':        '❓ Windows Help',
   };
   const btn = document.createElement('div');
   btn.className = 'taskbar-btn';
@@ -392,6 +393,7 @@ const RUN_PROGRAMS = {
   'mydocuments':    () => openWindow('my-docs'),
   'my computer':    () => openWindow('my-computer'),
   'mycomputer':     () => openWindow('my-computer'),
+  'help':           () => openWindow('help'),
   'chant':          () => { ieNavigateTo(SITE_ROOT + 'chant.html'); openWindow('ie'); },
 };
 

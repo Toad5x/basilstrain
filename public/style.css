@@ -481,6 +481,29 @@ body {
 .start-menu-icon { font-size: 20px; }
 .start-menu-footer { display: flex; justify-content: flex-end; padding: 4px 8px; gap: 4px; }
 
+/* ── START MENU SUBMENUS (flyouts) ── */
+.start-menu-item.has-sub { position: relative; }
+.start-menu-item .sub-arrow { margin-left: auto; font-size: 8px; }
+.submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -5px;
+  min-width: 170px;
+  background: var(--win-gray);
+  border-top: 1px solid var(--win-white);
+  border-left: 1px solid var(--win-white);
+  border-right: 1px solid var(--win-darker);
+  border-bottom: 1px solid var(--win-darker);
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+  padding: 2px 0;
+  color: #000;
+  z-index: 1;
+}
+.start-menu-item.has-sub:hover > .submenu { display: block; }
+.submenu .start-menu-item { padding: 4px 10px; white-space: nowrap; }
+.submenu .start-menu-icon { font-size: 16px; }
+
 /* ── ICON SVG ── */
 .icon-computer { display: block; width: 32px; height: 32px; }
 
