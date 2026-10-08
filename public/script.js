@@ -366,6 +366,20 @@ function ieStop()    { document.getElementById('ie-frame').contentWindow.stop();
 function ieRefresh() { document.getElementById('ie-frame').contentWindow.location.reload(); document.getElementById('ie-status').textContent = '⏳ Loading...'; }
 function ieHome()    { ieNavigateTo(IE_HOME); }
 
+// ── REMOVABLE DEVICES (My Computer) ──
+let deviceLastLetter = '';
+function deviceNotConnected(letter) {
+  deviceLastLetter = letter;
+  document.getElementById('device-error-title').textContent = letter + '\\';
+  document.getElementById('device-error-msg').innerHTML =
+    letter + '\\ is not accessible.<br><br>The device is not connected.';
+  openDialog('device-error');
+}
+function deviceTryAgain() {
+  closeDialog('device-error');
+  setTimeout(() => deviceNotConnected(deviceLastLetter), 400);   // "retry", fails again
+}
+
 // ============================================================
 // RUN DIALOG
 // ============================================================

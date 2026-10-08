@@ -174,9 +174,9 @@
       </div>
       <div style="padding:4px;font-weight:bold;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-top:8px;">Devices with Removable Storage</div>
       <div class="file-grid">
-        <div class="file-item" onclick="selectFile(this)"><div class="icon">💿</div><span>3½ Floppy (A:)</span></div>
-        <div class="file-item" onclick="selectFile(this)"><div class="icon">📀</div><span>CD-ROM (E:)</span></div>
-        <div class="file-item" onclick="selectFile(this)"><div class="icon">📀</div><span>DVD-ROM (F:)</span></div>
+        <div class="file-item" onclick="selectFile(this)" ondblclick="deviceNotConnected('A:')"><div class="icon">💿</div><span>3½ Floppy (A:)</span></div>
+        <div class="file-item" onclick="selectFile(this)" ondblclick="deviceNotConnected('E:')"><div class="icon">📀</div><span>CD-ROM (E:)</span></div>
+        <div class="file-item" onclick="selectFile(this)" ondblclick="deviceNotConnected('F:')"><div class="icon">📀</div><span>DVD-ROM (F:)</span></div>
       </div>
     </div>
   </div>
@@ -536,6 +536,26 @@ Version 5.00.2195
     <div style="display:flex;justify-content:flex-end;gap:6px;">
       <div class="dialog-btn default-btn" onclick="runOpen()">OK</div>
       <div class="dialog-btn" onclick="closeRun()">Cancel</div>
+    </div>
+  </div>
+</div>
+
+<!-- DEVICE ERROR -->
+<div class="window hidden" id="device-error" style="left:150px;top:150px;width:340px;min-height:0;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'device-error')">
+    <span class="title-bar-text" id="device-error-title">Error</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn close-btn" onclick="closeDialog('device-error')">✕</div>
+    </div>
+  </div>
+  <div class="window-content gray-bg" style="padding:12px;font-size:11px;font-family:'Tahoma',sans-serif;">
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:28px;line-height:1;">⛔</span>
+      <span id="device-error-msg"></span>
+    </div>
+    <div style="display:flex;justify-content:center;gap:6px;margin-top:14px;">
+      <div class="dialog-btn default-btn" onclick="closeDialog('device-error')">Cancel</div>
+      <div class="dialog-btn" onclick="deviceTryAgain()">Try Again</div>
     </div>
   </div>
 </div>
