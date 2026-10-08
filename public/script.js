@@ -207,7 +207,7 @@ document.addEventListener('keydown', e => {
 // ============================================================
 const NEOCITIES_FILES = [
   { path: 'index.html',    type: 'file', size: 512  },
-  { path: 'neocities.png', type: 'file', size: 6793 },
+  { path: 'images/neocities.png', type: 'file', size: 6793 },
   { path: 'about.txt', type: 'file', size: 254 },
   { path: 'chant.html', type: 'file', size: 512 },
 ];
@@ -327,6 +327,7 @@ function ieNavigate(e) {
 }
 
 function ieNavigateTo(url) {
+  if (url && !/^[a-z][a-z0-9+.-]*:/i.test(url) && !url.startsWith('/') && url.includes('.') && !/\.(html?|txt)$/i.test(url.split(/[?#]/)[0])) url = 'https://' + url;
   document.getElementById('ie-status').textContent  = '⏳ Loading...';
   document.getElementById('ie-address').value = url;
   document.getElementById('ie-frame').src = url;
@@ -340,12 +341,86 @@ function ieFrameLoaded() {
   } catch(e) { /* cross-origin */ }
 }
 
+document.getElementById('ie-frame').addEventListener('load', ieFrameLoaded);
+document.getElementById('ie-frame').addEventListener('error', ieFrameError);
+
 function ieFrameError() { document.getElementById('ie-status').textContent = '❌ Cannot display page'; }
 function ieBack()    { document.getElementById('ie-frame').contentWindow.history.back(); }
 function ieForward() { document.getElementById('ie-frame').contentWindow.history.forward(); }
 function ieStop()    { document.getElementById('ie-frame').contentWindow.stop(); document.getElementById('ie-status').textContent = '✋ Stopped'; }
 function ieRefresh() { document.getElementById('ie-frame').contentWindow.location.reload(); document.getElementById('ie-status').textContent = '⏳ Loading...'; }
 function ieHome()    { ieNavigateTo(SITE_ROOT + 'chant.html'); }
+
+// ============================================================
+// RUN DIALOG
+// ============================================================
+// Dialogs reuse the .window machinery but get no taskbar button.
+function openDialog(id) {
+  const win = document.getElementById(id);
+  win.classList.remove('hidden');
+  win.style.display = 'flex';
+  bringToFront(id);
+  closeMenus();
+}
+function closeDialog(id) {
+  const win = document.getElementById(id);
+  win.style.display = 'none';
+  win.classList.add('hidden');
+}
+
+function openRun() {
+  openDialog('run-dialog');
+  const input = document.getElementById('run-input');
+  input.focus();
+  input.select();
+}
+function closeRun() { closeDialog('run-dialog'); }
+
+function runKey(e) {
+  if (e.key === 'Enter')  runOpen();
+  if (e.key === 'Escape') closeRun();
+}
+
+const RUN_PROGRAMS = {
+  'notepad':        () => openWindow('notepad'),
+  'notepad.exe':    () => openWindow('notepad'),
+  'iexplore':       () => openWindow('ie'),
+  'iexplore.exe':   () => openWindow('ie'),
+  'explorer':       () => openWindow('my-docs'),
+  'explorer.exe':   () => openWindow('my-docs'),
+  'my documents':   () => openWindow('my-docs'),
+  'mydocuments':    () => openWindow('my-docs'),
+  'my computer':    () => openWindow('my-computer'),
+  'mycomputer':     () => openWindow('my-computer'),
+  'chant':          () => { ieNavigateTo(SITE_ROOT + 'chant.html'); openWindow('ie'); },
+};
+
+function runOpen() {
+  const cmd = document.getElementById('run-input').value.trim();
+  if (!cmd) return;
+  const key = cmd.toLowerCase();
+
+  if (RUN_PROGRAMS[key]) {
+    RUN_PROGRAMS[key]();
+  } else if (/^(https?:\/\/|www\.)/i.test(cmd)) {
+    ieNavigateTo(/^www\./i.test(cmd) ? 'https://' + cmd : cmd);
+    openWindow('ie');
+  } else {
+    const path = key.replace(/^\//, '');
+    const file = NEOCITIES_FILES.find(f => f.type === 'file' && f.path.toLowerCase() === path);
+    if (!file) {
+      document.getElementById('run-error-title').textContent = cmd;
+      document.getElementById('run-error-msg').textContent =
+        "Windows cannot find '" + cmd + "'. Make sure you typed the name correctly, and then try again.";
+      closeRun();
+      openDialog('run-error');
+      return;
+    }
+    ncOpenFile(SITE_ROOT + file.path, file.path.split('/').pop());
+  }
+  document.getElementById('run-input').value = '';
+  closeRun();
+}
 
 // ============================================================
 // NOTEPAD

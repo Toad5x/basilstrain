@@ -62,10 +62,34 @@
     <span>Notepad</span>
   </div>
 
+  <div class="desktop-icon" ondblclick="ieNavigateTo('chant.html')" onclick="selectIcon(this)">
+    <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <!-- scroll body -->
+      <rect x="5" y="5" width="22" height="22" rx="2" fill="#F5F0DC" stroke="#8B7355" stroke-width="1.2"/>
+      <!-- rolled ends -->
+      <rect x="3" y="7" width="4" height="18" rx="2" fill="#D4C9A0" stroke="#8B7355" stroke-width="1"/>
+      <rect x="25" y="7" width="4" height="18" rx="2" fill="#D4C9A0" stroke="#8B7355" stroke-width="1"/>
+      <!-- neume-like marks -->
+      <text x="9" y="14" font-size="5" font-family="serif" fill="#4A3728">♩ ♪</text>
+      <line x1="9" y1="17" x2="23" y2="17" stroke="#8B7355" stroke-width="0.8"/>
+      <text x="9" y="23" font-size="5" font-family="serif" fill="#4A3728">♫ ♩</text>
+    </svg>
+    <span>Chant Page</span>
+  </div>
+
   <div class="desktop-icon" ondblclick="triggerBSOD()" onclick="selectIcon(this)">
     <svg class="icon-computer" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="16" cy="16" r="13" fill="#FFD700" stroke="#B8860B" stroke-width="1.5"/>
-      <text x="10.5" y="21" font-size="14" font-family="Arial" fill="#B8860B">!</text>
+      <!-- lid and handle -->
+      <rect x="12" y="3" width="8" height="3" rx="1" fill="#C0C0C0" stroke="#606060" stroke-width="1"/>
+      <rect x="5" y="6" width="22" height="4" rx="1" fill="#D8D8D8" stroke="#606060" stroke-width="1"/>
+      <!-- can body -->
+      <path d="M7 10 L9 28 Q9 29 10 29 L22 29 Q23 29 23 28 L25 10 Z" fill="#E8F0F8" stroke="#606060" stroke-width="1.2"/>
+      <!-- ribs -->
+      <line x1="12" y1="13" x2="12.5" y2="26" stroke="#9AA8B8" stroke-width="1"/>
+      <line x1="16" y1="13" x2="16" y2="26" stroke="#9AA8B8" stroke-width="1"/>
+      <line x1="20" y1="13" x2="19.5" y2="26" stroke="#9AA8B8" stroke-width="1"/>
+      <!-- recycle arrows -->
+      <path d="M16 15 L18.5 19 L13.5 19 Z" fill="#2E8B2E"/>
     </svg>
     <span>Recycle Bin</span>
   </div>
@@ -271,7 +295,7 @@
     <input class="address-input" value="https://basilstrain.neocities.org/chant.html" id="ie-address" onkeydown="ieNavigate(event)">
     <div class="dialog-btn" style="height:20px;padding:1px 8px;" onclick="ieNavigate({key:'Enter'})">Go</div>
   </div>
-  <iframe id="ie-frame" src="https://basilstrain.neocities.org/chant.html" style="flex:1;border:none;width:100%;display:block;" onload="ieFrameLoaded()" onerror="ieFrameError()"></iframe>
+  <iframe id="ie-frame" src="https://basilstrain.neocities.org/chant.html" style="flex:1;border:none;width:100%;display:block;"></iframe>
   <div class="status-bar">
     <div class="status-item" id="ie-status">✅ Done</div>
     <div class="status-item" id="ie-zone">Internet zone</div>
@@ -373,6 +397,49 @@ Version 5.00.2195
   <div class="resize-handle" onmousedown="startResize(event,'pic-viewer')">⟲</div>
 </div>
 
+<!-- RUN DIALOG -->
+<div class="window hidden" id="run-dialog" style="left:80px;top:300px;width:360px;min-height:0;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'run-dialog')">
+    <span class="title-bar-text">Run</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn close-btn" onclick="closeRun()">✕</div>
+    </div>
+  </div>
+  <div class="window-content gray-bg" style="padding:12px;font-size:11px;font-family:'Tahoma',sans-serif;">
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:28px;line-height:1;">🏃</span>
+      <span>Type the name of a program, folder, document, or Internet resource, and Windows will open it for you.</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin:14px 0 14px 0;">
+      <label for="run-input"><u>O</u>pen:</label>
+      <input id="run-input" class="address-input" style="flex:1;" autocomplete="off" spellcheck="false" onkeydown="runKey(event)">
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;">
+      <div class="dialog-btn default-btn" onclick="runOpen()">OK</div>
+      <div class="dialog-btn" onclick="closeRun()">Cancel</div>
+    </div>
+  </div>
+</div>
+
+<!-- RUN ERROR -->
+<div class="window hidden" id="run-error" style="left:120px;top:330px;width:320px;min-height:0;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'run-error')">
+    <span class="title-bar-text" id="run-error-title">Error</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn close-btn" onclick="closeDialog('run-error')">✕</div>
+    </div>
+  </div>
+  <div class="window-content gray-bg" style="padding:12px;font-size:11px;font-family:'Tahoma',sans-serif;">
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:28px;line-height:1;">⛔</span>
+      <span id="run-error-msg"></span>
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:14px;">
+      <div class="dialog-btn default-btn" onclick="closeDialog('run-error');openRun()">OK</div>
+    </div>
+  </div>
+</div>
+
 <!-- BSOD -->
 <div id="bsod" onclick="hideBSOD()">
   <div style="max-width:640px;margin:0 auto;">
@@ -424,7 +491,7 @@ Version 5.00.2195
     <div class="start-menu-item"><span class="start-menu-icon">⚙️</span><span>Settings ▶</span></div>
     <div class="start-menu-item"><span class="start-menu-icon">🔍</span><span>Search ▶</span></div>
     <div class="start-menu-item"><span class="start-menu-icon">❓</span><span>Help</span></div>
-    <div class="start-menu-item"><span class="start-menu-icon">▶️</span><span>Run...</span></div>
+    <div class="start-menu-item" onclick="openRun()"><span class="start-menu-icon">▶️</span><span>Run...</span></div>
   </div>
   <div class="start-menu-footer">
     <div class="dialog-btn" style="display:flex;align-items:center;gap:4px;"><span>🔒</span> Log Off...</div>
@@ -451,4 +518,4 @@ Version 5.00.2195
 
 <script src="script.js"></script>
 </body>
-</html>
+</html>
