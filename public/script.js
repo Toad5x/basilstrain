@@ -333,6 +333,8 @@ function ncUp() {
 // ============================================================
 // INTERNET EXPLORER
 // ============================================================
+const IE_HOME = 'https://www.wikipedia.org/';
+
 function ieNavigate(e) {
   if (e.key !== 'Enter') return;
   ieNavigateTo(document.getElementById('ie-address').value.trim());
@@ -361,7 +363,7 @@ function ieBack()    { document.getElementById('ie-frame').contentWindow.history
 function ieForward() { document.getElementById('ie-frame').contentWindow.history.forward(); }
 function ieStop()    { document.getElementById('ie-frame').contentWindow.stop(); document.getElementById('ie-status').textContent = '✋ Stopped'; }
 function ieRefresh() { document.getElementById('ie-frame').contentWindow.location.reload(); document.getElementById('ie-status').textContent = '⏳ Loading...'; }
-function ieHome()    { ieNavigateTo(SITE_ROOT + 'chant.html'); }
+function ieHome()    { ieNavigateTo(IE_HOME); }
 
 // ============================================================
 // RUN DIALOG
