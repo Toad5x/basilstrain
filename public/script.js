@@ -213,6 +213,7 @@ const NEOCITIES_FILES = [
   { path: 'images/neocities.png', type: 'file', size: 6793 },
   { path: 'about.txt', type: 'file', size: 254 },
   { path: 'chant.html', type: 'file', size: 512 },
+  { path: 'sms.html', type: 'file', size: 2048 },
   { path: 'wallpapers', type: 'directory' },
   { path: 'wallpapers/Blue_Lace_16.png', type: 'file', size: 595 },
   { path: 'wallpapers/Fly_Away.jpg', type: 'file', size: 4684 },
