@@ -89,6 +89,7 @@ function createTaskbarBtn(id) {
     'pic-viewer':  '🖼️ Picture Viewer',
     'help':        '❓ Windows Help',
     'search':      '🔍 Search Results',
+    'minesweeper': '💣 Minesweeper',
     'control-panel': '⚙️ Control Panel',
   };
   const btn = document.createElement('div');
@@ -210,6 +211,13 @@ document.addEventListener('keydown', e => {
 // ============================================================
 const NEOCITIES_FILES = [
   { path: 'index.html',    type: 'file', size: 512  },
+  { path: 'images', type: 'directory' },
+  { path: 'images/minesweeper', type: 'directory' },
+  { path: 'images/minesweeper/minesweeper_smiley.jpg', type: 'file', size: 2241 },
+  { path: 'images/minesweeper/smiley_dead.jpg', type: 'file', size: 2387 },
+  { path: 'images/minesweeper/smiley_pressed.jpg', type: 'file', size: 2175 },
+  { path: 'images/minesweeper/smiley_surprised.jpg', type: 'file', size: 2562 },
+  { path: 'images/minesweeper/smiley_win.jpg', type: 'file', size: 2539 },
   { path: 'images/neocities.png', type: 'file', size: 6793 },
   { path: 'about.txt', type: 'file', size: 254 },
   { path: 'chant.html', type: 'file', size: 512 },
@@ -422,6 +430,8 @@ const RUN_PROGRAMS = {
   'my computer':    () => openWindow('my-computer'),
   'mycomputer':     () => openWindow('my-computer'),
   'help':           () => openWindow('help'),
+  'winmine':        () => openWindow('minesweeper'),
+  'minesweeper':    () => openWindow('minesweeper'),
   'chant':          () => { ieNavigateTo(SITE_ROOT + 'chant.html'); openWindow('ie'); },
 };
 
@@ -653,6 +663,200 @@ function runSearch() {
   document.getElementById('search-status').textContent =
     found.length ? found.length + ' file(s) found' : 'Search is complete. There are no results to display.';
 }
+
+// ============================================================
+// MINESWEEPER
+// ============================================================
+const MS_LEVELS = {
+  beginner:     { cols: 9,  rows: 9,  mines: 10 },
+  intermediate: { cols: 16, rows: 16, mines: 40 },
+  expert:       { cols: 30, rows: 16, mines: 99 },
+};
+const ms = { level: 'beginner', cols: 9, rows: 9, mines: 10, cells: [], placed: false, over: false, flags: 0, opened: 0, time: 0, timer: null };
+try { const l = localStorage.getItem('minesweeperLevel'); if (MS_LEVELS[l]) ms.level = l; } catch (e) { /* ignore */ }
+
+function msLed(n) {
+  const sign = n < 0 ? '-' : '';
+  return sign + String(Math.min(Math.abs(n), 999)).padStart(3 - sign.length, '0');
+}
+function msUpdateCounters() {
+  document.getElementById('ms-mines').textContent = msLed(ms.mines - ms.flags);
+  document.getElementById('ms-time').textContent  = msLed(ms.time);
+}
+const MS_FACES = {
+  normal:    'images/minesweeper/minesweeper_smiley.jpg',
+  surprised: 'images/minesweeper/smiley_surprised.jpg',
+  dead:      'images/minesweeper/smiley_dead.jpg',
+  win:       'images/minesweeper/smiley_win.jpg',
+  pressed:   'images/minesweeper/smiley_pressed.jpg',
+};
+Object.values(MS_FACES).forEach(src => { new Image().src = src; });   // preload so faces swap without flicker
+
+let msFaceName = 'normal';
+function msFace(name) {
+  msFaceName = name;
+  document.getElementById('ms-face-img').src = MS_FACES[name];
+}
+
+function msNeighbors(i) {
+  const c = i % ms.cols, r = Math.floor(i / ms.cols), out = [];
+  for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+    if (!dr && !dc) continue;
+    const rr = r + dr, cc = c + dc;
+    if (rr >= 0 && rr < ms.rows && cc >= 0 && cc < ms.cols) out.push(rr * ms.cols + cc);
+  }
+  return out;
+}
+
+function msSetLevel(level) {
+  ms.level = level;
+  try { localStorage.setItem('minesweeperLevel', level); } catch (e) { /* ignore */ }
+  msNewGame();
+}
+
+function msNewGame() {
+  clearInterval(ms.timer);
+  const lv = MS_LEVELS[ms.level];
+  Object.assign(ms, lv, { cells: [], placed: false, over: false, flags: 0, opened: 0, time: 0, timer: null });
+
+  document.querySelectorAll('#ms-game .dropdown-item[data-level]').forEach(el => {
+    const name = el.dataset.level[0].toUpperCase() + el.dataset.level.slice(1);
+    el.textContent = (el.dataset.level === ms.level ? '✓ ' : '\u00A0\u00A0 ') + name;
+  });
+
+  const board = document.getElementById('ms-board');
+  board.innerHTML = '';
+  board.style.gridTemplateColumns = 'repeat(' + ms.cols + ', 16px)';
+  for (let i = 0; i < ms.cols * ms.rows; i++) {
+    const el = document.createElement('div');
+    el.className = 'ms-cell';
+    el.dataset.i = i;
+    board.appendChild(el);
+    ms.cells.push({ mine: false, adj: 0, open: false, flag: false, el });
+  }
+  msFace('normal');
+  msUpdateCounters();
+}
+
+function msPlaceMines(safe) {
+  // keep the first click and its neighbours mine-free
+  const banned = new Set([safe, ...msNeighbors(safe)]);
+  const pool = ms.cells.map((_, i) => i).filter(i => !banned.has(i));
+  for (let n = 0; n < ms.mines; n++) {
+    const k = Math.floor(Math.random() * pool.length);
+    ms.cells[pool.splice(k, 1)[0]].mine = true;
+  }
+  ms.cells.forEach((cell, i) => { cell.adj = msNeighbors(i).filter(j => ms.cells[j].mine).length; });
+  ms.placed = true;
+  ms.timer = setInterval(() => {
+    if (ms.over || document.getElementById('minesweeper').style.display === 'none') return;   // paused when minimized/closed
+    ms.time = Math.min(ms.time + 1, 999);
+    msUpdateCounters();
+  }, 1000);
+}
+
+function msOpen(start) {
+  const stack = [start];
+  while (stack.length) {
+    const i = stack.pop(), cell = ms.cells[i];
+    if (cell.open || cell.flag) continue;
+    cell.open = true;
+    ms.opened++;
+    cell.el.className = 'ms-cell open' + (cell.adj ? ' n' + cell.adj : '');
+    cell.el.textContent = cell.adj || '';
+    if (!cell.adj) stack.push(...msNeighbors(i));
+  }
+}
+
+function msReveal(i) {
+  const cell = ms.cells[i];
+  if (ms.over || cell.flag) return;
+  if (cell.open) { msChord(i); return; }
+  if (!ms.placed) msPlaceMines(i);
+  if (cell.mine) { msLose(i); return; }
+  msOpen(i);
+  if (ms.opened === ms.cells.length - ms.mines) msWin();
+}
+
+// clicking an opened number whose flags are all placed opens the rest of its neighbours
+function msChord(i) {
+  const cell = ms.cells[i];
+  if (!cell.adj) return;
+  const around = msNeighbors(i);
+  if (around.filter(j => ms.cells[j].flag).length !== cell.adj) return;
+  for (const j of around) {
+    const n = ms.cells[j];
+    if (n.flag || n.open) continue;
+    if (n.mine) { msLose(j); return; }
+    msOpen(j);
+  }
+  if (ms.opened === ms.cells.length - ms.mines) msWin();
+}
+
+function msToggleFlag(i) {
+  const cell = ms.cells[i];
+  if (ms.over || cell.open) return;
+  cell.flag = !cell.flag;
+  ms.flags += cell.flag ? 1 : -1;
+  cell.el.className = 'ms-cell' + (cell.flag ? ' flag' : '');
+  cell.el.textContent = cell.flag ? '🚩' : '';
+  msUpdateCounters();
+}
+
+function msLose(hit) {
+  ms.over = true;
+  clearInterval(ms.timer);
+  ms.cells.forEach((cell, i) => {
+    if (cell.mine && !cell.flag) { cell.el.className = 'ms-cell open mine' + (i === hit ? ' boom' : ''); cell.el.textContent = '💣'; }
+    else if (!cell.mine && cell.flag) { cell.el.className = 'ms-cell open wrong'; cell.el.textContent = '❌'; }
+  });
+  msFace('dead');
+}
+
+function msWin() {
+  ms.over = true;
+  clearInterval(ms.timer);
+  ms.cells.forEach(cell => {
+    if (cell.mine && !cell.flag) { cell.flag = true; cell.el.className = 'ms-cell flag'; cell.el.textContent = '🚩'; }
+  });
+  ms.flags = ms.mines;
+  msUpdateCounters();
+  msFace('win');
+}
+
+(function msInit() {
+  const board = document.getElementById('ms-board');
+  const cellIndex = e => { const el = e.target.closest('.ms-cell'); return el ? +el.dataset.i : -1; };
+  let pressTimer = null, longPressed = false;
+
+  board.addEventListener('contextmenu', e => { e.preventDefault(); });
+  board.addEventListener('mousedown', e => {
+    if (e.button === 2) { const i = cellIndex(e); if (i >= 0) msToggleFlag(i); }
+    else if (!ms.over) msFace('surprised');
+  });
+  document.addEventListener('mouseup', () => { if (!ms.over && msFaceName === 'surprised') msFace('normal'); });
+  // the smiley button looks pushed in while held down
+  const face = document.getElementById('ms-face'), faceImg = document.getElementById('ms-face-img');
+  face.addEventListener('mousedown', () => { faceImg.src = MS_FACES.pressed; });
+  ['mouseup', 'mouseleave'].forEach(ev => face.addEventListener(ev, () => { faceImg.src = MS_FACES[msFaceName]; }));
+  board.addEventListener('click', e => {
+    if (longPressed) { longPressed = false; return; }
+    const i = cellIndex(e);
+    if (i >= 0) msReveal(i);
+  });
+  // touch screens have no right button: long-press places a flag
+  board.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch') return;
+    const i = cellIndex(e);
+    longPressed = false;
+    pressTimer = setTimeout(() => { longPressed = true; if (i >= 0) msToggleFlag(i); }, 450);
+  });
+  ['pointerup', 'pointercancel', 'pointermove'].forEach(ev => board.addEventListener(ev, () => clearTimeout(pressTimer)));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'F2' && document.getElementById('minesweeper').style.display === 'flex') { e.preventDefault(); msNewGame(); }
+  });
+  msNewGame();
+})();
 
 // ============================================================
 // NOTEPAD

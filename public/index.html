@@ -486,6 +486,38 @@ Version 5.00.2195
   </div>
 </div>
 
+<!-- MINESWEEPER -->
+<div class="window hidden" id="minesweeper" style="left:220px;top:70px;">
+  <div class="title-bar active-bar" onmousedown="startDrag(event,'minesweeper')">
+    <span class="title-bar-text">💣 Minesweeper</span>
+    <div class="title-bar-buttons">
+      <div class="tb-btn" onclick="minimizeWindow('minesweeper')">_</div>
+      <div class="tb-btn close-btn" onclick="closeWindow('minesweeper')">✕</div>
+    </div>
+  </div>
+  <div class="menu-bar">
+    <div class="menu-item" onclick="toggleDropdown('ms-game')">Game
+      <div class="dropdown" id="ms-game">
+        <div class="dropdown-item" onclick="msNewGame()">New &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F2</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item" data-level="beginner"     onclick="msSetLevel('beginner')">Beginner</div>
+        <div class="dropdown-item" data-level="intermediate" onclick="msSetLevel('intermediate')">Intermediate</div>
+        <div class="dropdown-item" data-level="expert"       onclick="msSetLevel('expert')">Expert</div>
+        <div class="dropdown-separator"></div>
+        <div class="dropdown-item" onclick="closeWindow('minesweeper')">Exit</div>
+      </div>
+    </div>
+  </div>
+  <div class="ms-body">
+    <div class="ms-panel ms-header">
+      <div class="ms-led" id="ms-mines">010</div>
+      <div class="ms-face" id="ms-face" onclick="msNewGame()" title="New game"><img id="ms-face-img" src="images/minesweeper/minesweeper_smiley.jpg" alt="" draggable="false"></div>
+      <div class="ms-led" id="ms-time">000</div>
+    </div>
+    <div class="ms-panel"><div class="ms-board" id="ms-board"></div></div>
+  </div>
+</div>
+
 <!-- HELP -->
 <div class="window hidden" id="help" style="left:160px;top:60px;width:440px;height:340px;">
   <div class="title-bar active-bar" onmousedown="startDrag(event,'help')">
@@ -635,6 +667,12 @@ Version 5.00.2195
           <div class="submenu">
             <div class="start-menu-item" onclick="openWindow('notepad');closeMenus();"><span class="start-menu-icon">📝</span><span>Notepad</span></div>
             <div class="start-menu-item" onclick="openWindow('my-docs');closeMenus();"><span class="start-menu-icon">📁</span><span>Windows Explorer</span></div>
+            <div class="start-menu-item has-sub" onclick="event.stopPropagation()">
+              <span class="start-menu-icon">🎮</span><span>Games</span><span class="sub-arrow">▶</span>
+              <div class="submenu">
+                <div class="start-menu-item" onclick="openWindow('minesweeper');closeMenus();"><span class="start-menu-icon">💣</span><span>Minesweeper</span></div>
+              </div>
+            </div>
             <div class="start-menu-item" onclick="openRun();"><span class="start-menu-icon">▶️</span><span>Run...</span></div>
           </div>
         </div>

@@ -13,7 +13,7 @@ Planned, in this order:
 - [x] Settings ▶: Control Panel (Display, System) and Display... (desktop color, saved in localStorage). Taskbar settings not done.
 - [x] Display Properties wallpapers: auto Tile (< 640x480) or Stretch; list lives in `WALLPAPERS` in `public/script.js` (update with the folder)
 - [ ] Add the remaining Windows 2000 wallpapers to `public/wallpapers/` (then add to `WALLPAPERS` and `NEOCITIES_FILES`)
-- [ ] `images/` folder isn't listed in My Documents (no `directory` entry in `NEOCITIES_FILES`)
+- [x] `images/` folder now listed in My Documents (`directory` entries added to `NEOCITIES_FILES`; favicon.ico still isn't listed)
 - [x] Search ▶: For Files or Folders... (searches `NEOCITIES_FILES`, supports * and ?) and On the Internet... (Wikipedia search)
 - [ ] Documents ▶: recent files (`about.txt`, `chant.html`)
 - [ ] Favorites ▶: shortcuts to chant resources (Antiochian.org etc.)
@@ -26,12 +26,12 @@ Planned, in this order:
 Put under Programs ▶ Games ▶ (in Windows 2000 they live in Accessories ▶ Games), each in its own window. Pick the order as we go.
 
 - [ ] Solitaire (Klondike)
-- [ ] Minesweeper
+- [x] Minesweeper (3 levels, flags, chording, timer; long-press flags on touch)
 - [ ] FreeCell
 - [ ] Hearts
 - [ ] Yacht (dice)
 - [ ] Backgammon
-- [ ] Games submenu: add it under Programs ▶ Accessories ▶ and add a taskbar title for each game in `createTaskbarBtn`
+- [x] Games submenu under Programs ▶ Accessories ▶ (add each new game there, plus a taskbar title in `createTaskbarBtn` and a Run name in `RUN_PROGRAMS`)
 
 ## Bugs / fixes
 

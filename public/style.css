@@ -549,3 +549,20 @@ body {
   border-bottom: 1px solid var(--win-darker);
   height: 16px; width: 16px;
 }
+
+/* ── MINESWEEPER ── */
+#minesweeper { width: max-content; min-width: 0; }
+.ms-body { padding: 6px; background: #C0C0C0; display: flex; flex-direction: column; gap: 6px; }
+.ms-panel { border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
+.ms-header { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; }
+.ms-led { background: #000; color: #f00; font: bold 22px/26px 'Courier New', monospace; padding: 0 2px; min-width: 42px; text-align: center; border-top: 1px solid #808080; border-left: 1px solid #808080; border-right: 1px solid #fff; border-bottom: 1px solid #fff; letter-spacing: 1px; }
+.ms-face { width: 26px; height: 26px; cursor: pointer; user-select: none; }
+.ms-face img { display: block; width: 100%; height: 100%; image-rendering: pixelated; -webkit-user-drag: none; }
+.ms-board { display: grid; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.ms-cell { width: 16px; height: 16px; box-sizing: border-box; background: #C0C0C0; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #808080; border-bottom: 2px solid #808080; font: bold 12px/12px 'Courier New', monospace; text-align: center; overflow: hidden; cursor: default; }
+.ms-cell.open { border: 1px solid #808080; border-right-width: 0; border-bottom-width: 0; line-height: 14px; }
+.ms-cell.flag, .ms-cell.mine, .ms-cell.wrong { font-size: 10px; line-height: 12px; }
+.ms-cell.open.mine { font-size: 10px; line-height: 14px; }
+.ms-cell.boom { background: #f00; }
+.ms-cell.n1 { color: #0000ff; } .ms-cell.n2 { color: #008000; } .ms-cell.n3 { color: #ff0000; } .ms-cell.n4 { color: #000080; }
+.ms-cell.n5 { color: #800000; } .ms-cell.n6 { color: #008080; } .ms-cell.n7 { color: #000; } .ms-cell.n8 { color: #808080; }
